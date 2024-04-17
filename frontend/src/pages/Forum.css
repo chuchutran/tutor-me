@@ -1,0 +1,12 @@
+.hero {
+  justify-content: center;
+}
+
+.postsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* This centers the children horizontally in the case of column flex-direction */
+  justify-content: center;
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
     createStyles,
     Header,
@@ -10,6 +10,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { ArrowUpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import bear from "../assets/tutorme.svg"
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -19,40 +20,29 @@ const useStyles = createStyles((theme) => ({
         alignItems: "center",
         height: "100%",
     },
-
     links: {
         [theme.fn.smallerThan("xs")]: {
             display: "none",
         },
     },
-
     burger: {
         [theme.fn.largerThan("xs")]: {
             display: "none",
         },
     },
-
     link: {
         display: "block",
         lineHeight: 1,
         padding: `${rem(8)} ${rem(12)}`,
         borderRadius: theme.radius.sm,
         textDecoration: "none",
-        color:
-            theme.colorScheme === "dark"
-                ? theme.colors.dark[0]
-                : theme.colors.gray[7],
+        color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[7],
         fontSize: theme.fontSizes.sm,
         fontWeight: 500,
-
         "&:hover": {
-            backgroundColor:
-                theme.colorScheme === "dark"
-                    ? theme.colors.dark[6]
-                    : theme.colors.gray[0],
+            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         },
     },
-
     linkActive: {
         "&, &:hover": {
             backgroundColor: theme.fn.variant({
@@ -72,20 +62,17 @@ interface HeaderSimpleProps {
 }
 
 export function HeaderSimple({ links }: HeaderSimpleProps) {
-    const [opened, { toggle }] = useDisclosure(false);
-    const [active, setActive] = useState(links[0].link);
+    const location = useLocation();
     const { classes, cx } = useStyles();
+    const [opened, { toggle }] = useDisclosure(false);
 
     const items = links.map((link) => (
         <Link
             key={link.label}
             to={link.link}
             className={cx(classes.link, {
-                [classes.linkActive]: active === link.link,
+                [classes.linkActive]: location.pathname === link.link,
             })}
-            onClick={(event) => {
-                setActive(link.link);
-            }}
         >
             {link.label}
         </Link>
@@ -94,7 +81,7 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
     return (
         <Header height={60}>
             <Container className={classes.header}>
-                <ArrowUpCircle size={28} />
+                <img src={bear} style={{ height: '60%' }} />
                 <Group spacing={5} className={classes.links}>
                     {items}
                 </Group>

@@ -1,11 +1,12 @@
 import { HeaderSimple } from "../components/Header";
 import { PATHS } from "../constants/Navigation";
 import { Outlet } from "react-router-dom";
+import "./RootLayout.css"
 
 const RootLayout = () => (
-    <div>
+    <div className="root">
         <HeaderSimple links={PATHS} />
-        <div>
+        <div className="content">
             <Outlet />
         </div>
     </div>

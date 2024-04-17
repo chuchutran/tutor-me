@@ -1,0 +1,6 @@
+.hero {
+  display: flex;
+  /* Establishes this element as a flex container */
+  justify-content: center;
+  /* Horizontally centers the flex items */
+}
