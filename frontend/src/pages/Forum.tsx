@@ -33,17 +33,22 @@ const ForumPage = () => {
   return (
     <div id='forum-page'>
       <h1 className='hero'>All the posts show here</h1>
-      <div className='postsContainer'>
-        {posts.map((post, index) => (
-          <Post
-            key={index}
-            title={post.title}
-            description={post.description}
-            posterId={post.posterId}
-            classCode={post.classCode}
-          />
-        ))}
-      </div>
+      <div className='resultsContainer'>
+        <div>
+          FILTER HERE
+        </div>
+        <div className='postsContainer'>
+          {posts.map((post, index) => (
+            <Post
+              key={index}
+              title={post.title}
+              description={post.description}
+              posterId={post.posterId}
+              classCode={post.classCode}
+            />
+          ))}
+        </div></div>
+
     </div>
   );
 };

@@ -1,6 +1,8 @@
 .hero {
   display: flex;
+  flex-direction: column;
   /* Establishes this element as a flex container */
   justify-content: center;
   /* Horizontally centers the flex items */
+  align-items: center;
 }

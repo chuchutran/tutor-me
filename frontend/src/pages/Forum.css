@@ -2,8 +2,17 @@
   justify-content: center;
 }
 
-.postsContainer {
+.resultsContainer {
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* This centers the children horizontally in the case of column flex-direction */
+  justify-content: center;
+}
+
+.postsContainer {
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;

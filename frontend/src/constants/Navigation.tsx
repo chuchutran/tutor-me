@@ -41,17 +41,17 @@ export const PATHS: {
         // },
         {
             link: "/forum",
-            label: "Forum",
+            label: "Posts",
             element: <ForumPage />
         },
         {
             link: "/user",
-            label: "User",
+            label: "Profile",
             element: <UserPage />
         },
         {
             link: "/auth",
-            label: "Auth",
+            label: "Login",
             element: <AuthPage />
         }
 
