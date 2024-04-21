@@ -38,3 +38,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# server
+server_account.json
