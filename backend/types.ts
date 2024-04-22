@@ -1,28 +1,21 @@
-export type Person = {
-    id: string;
-    name: string;
-    email: string;
+export type User = {
+    userId: number;
+    username: string;
     password: string;
-    bearIcon?: string;
-    teachingClasses?: string[];
-    attendingClasses?: string[];
-    bio?: string;
+    name: {
+        first: string;
+        middle?: string;
+        last: string;
+    };
+    email: string;
+    availabilities: string[];
+    phone?: string;
+    profileUrl?: string;
 };
-export type Tutor = Person;
 
-export type Tutee = Person;
-
-export type Class = {
-    title: string;
-    tutorsIds: string[];
-    tuteesIds: string[];
-}
-
-export type Postings = {
-    id: string;
-    tutorId: string;
-    tuteeId?: string;
-    dateAndTimes: string; // Example: "Mondays 3 PM - 5 PM, Fridays 12 PM - 4 PM"
-    rate: number;
-    status: "Available" | "Unavailable"
-}
+// Type for Posts
+export type Post = {
+    postId: number;
+    userId: number;
+    class: string;
+};
