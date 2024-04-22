@@ -3,12 +3,12 @@ import { getFirestore } from "firebase-admin/firestore";
 import serviceAccount from "./service_account.json";
 
 const app = initializeApp({
-    credential: cert({
-      clientEmail: serviceAccount.client_email,
-      privateKey: serviceAccount.private_key,
-      projectId: serviceAccount.project_id,
-    }),
-  });
+  credential: cert({
+    clientEmail: serviceAccount.client_email,
+    privateKey: serviceAccount.private_key,
+    projectId: serviceAccount.project_id,
+  }),
+});
 const db = getFirestore();
 
 export { db };
