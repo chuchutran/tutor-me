@@ -40,4 +40,4 @@ yarn-error.log*
 .vercel
 
 # server
-service_account.json
+**/service_account.json
