@@ -1,7 +1,18 @@
 import { User } from "./types";
 import { Post } from "./types";
+import { db } from "./firebase";
 
-export const addUser = async (userid: string, user: User) => {
+export const addUser = async (user: User) => {
+    const docRef = await db.collection('users').add(user);
+    return docRef.id;
+};
+
+export const getUser = async (userid: string) => {
 
 };
 
+export const addPost = async (userid: string, post: Post) => {
+    const person = await getUser(userid);
+    const docRef = await db.collection('posts').add(post);
+    return docRef.id;
+};

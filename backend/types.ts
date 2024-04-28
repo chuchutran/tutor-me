@@ -7,13 +7,14 @@ export type User = {
         last: string;
     };
     email: string;
-    availabilities: string[];
     phone?: string;
     profileUrl?: string;
 };
 
 // Type for Posts
 export type Post = {
-    userId: number;
-    class: string;
+    userid: string;
+    course: string;
+    availabilities: string[];
+    description: string;
 };
