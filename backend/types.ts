@@ -1,5 +1,4 @@
 export type User = {
-    userId: number;
     username: string;
     password: string;
     name: {
@@ -15,7 +14,6 @@ export type User = {
 
 // Type for Posts
 export type Post = {
-    postId: number;
     userId: number;
     class: string;
 };
