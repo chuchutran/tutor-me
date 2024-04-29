@@ -7,10 +7,15 @@
         "format": "prettier --write \"**/*.{ts,tsx,md}\""
     },
     "devDependencies": {
+        "@types/firebase": "^3.2.1",
         "eslint": "^8.48.0",
         "prettier": "^3.0.3",
         "turbo": "latest"
     },
     "packageManager": "pnpm@8.6.10",
-    "name": "full-stack"
+    "name": "full-stack",
+    "dependencies": {
+        "firebase": "^8.10.1",
+        "react-with-firebase-auth": "^1.4.1"
+    }
 }
