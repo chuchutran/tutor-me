@@ -2,7 +2,7 @@
 import { initializeApp, cert } from "firebase-admin/app";
 import { getFirestore as getAdminFirestore } from "firebase-admin/firestore";
 import serviceAccount from "./service_account.json";
-import withFirebaseAuth from 'react-with-firebase-auth';
+
 
 const adminApp = initializeApp({
   credential: cert({

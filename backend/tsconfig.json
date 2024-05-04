@@ -6,9 +6,7 @@
         "declaration": true,
         "outDir": "./dist",
         "esModuleInterop": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "allowSyntheticDefaultImports": true
+        "resolveJsonModule": true
     },
     "include": ["*.ts"]
 }

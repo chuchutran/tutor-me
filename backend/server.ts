@@ -1,7 +1,9 @@
-import path from "path";
 import express, { Express } from "express";
 import cors from "cors";
-import { WeatherResponse } from "@full-stack/types";
+import { User } from "./types";
+import { Post } from "./types";
+import { addUser, addPost } from "./controller";
+
 
 const app: Express = express();
 
@@ -11,43 +13,14 @@ const port = 8080;
 app.use(cors());
 app.use(express.json());
 
-// type WeatherData = {
-//     latitude: number;
-//     longitude: number;
-//     timezone: string;
-//     timezone_abbreviation: string;
-//     current: {
-//         time: string;
-//         interval: number;
-//         precipitation: number;
-//     };
-// };
-
-// app.get("/weather", async (req, res) => {
-//     console.log("GET /api/weather was called");
-//     try {
-//         const response = await fetch(
-//             "https://api.open-meteo.com/v1/forecast?latitude=40.7411&longitude=73.9897&current=precipitation&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America%2FNew_York&forecast_days=1"
-//         );
-//         const data = (await response.json()) as WeatherData;
-//         const output: WeatherResponse = {
-//             raining: data.current.precipitation > 0.5,
-//         };
-//         res.json(output);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: "Something went wrong" });
-//     }
-// });
-
 // **** didnt add in signup/ login requests yet
 // GET Requests
 // Searbar
-
 // Filter
 
 // POST Requests
 // Create Post
+// Create User
 
 // PUT Requests
 // Edit Profile info
@@ -55,7 +28,54 @@ app.use(express.json());
 // DELETE Requests
 // Delete Post
 
+// POST REQUESTS
+// Create User
+app.post("/api/user", async (req, res) => {
+    console.log("[POST] entering '/user endpoint");
+    const { username, password, name, email, phone, profileUrl} = req.body;
+    const user: User = {
+      username,
+      password,
+      name,
+      email,
+      phone,
+      profileUrl
+    };
+    try {
+      const userId = await addUser(user);
+      res.status(200).send({
+        message: `SUCCESS added person with ID: ${userId} to the users collection in Firestore`,
+        userid: userId
+      });
+    } catch (err) {
+      res.status(500).json({
+        error: `ERROR: an error occurred in the /api/user endpoint: ${err}`,
+      });
+    }
+  });
 
+  app.post("/api/post/:userid", async (req, res) => {
+    console.log("[POST] entering '/user/:userid' endpoint");
+    const userid: string = req.params.userid;
+    const { course, availabilities, description} = req.body;
+    const post: Post = {
+      userid,
+      course,
+      availabilities,
+      description
+    };
+    try {
+      const postId = await addPost(post);
+      res.status(200).send({
+        message: `SUCCESS added post with ID: ${postId} to the posts collection in Firestore`,
+        postId: postId
+      });
+    } catch (err) {
+      res.status(500).json({
+        error: `ERROR: an error occurred in the /api/post/userid endpoint: ${err}`,
+      });
+    }
+  });
 
 app.listen(port, hostname, () => {
     console.log("Listening");
