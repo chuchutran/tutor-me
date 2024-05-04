@@ -6,6 +6,7 @@ import { addUser, addPost } from "./controller";
 import { updateProfile } from "./controller";
 import { deletePost } from "./controller";
 import { filterPostsByCourse } from "./controller";
+import { filterPostsByAvailability } from "./controller";
 
 
 const app: Express = express();
@@ -17,11 +18,8 @@ app.use(cors());
 app.use(express.json());
 
 // **** didnt add in signup/ login requests yet
-// GET Requests
-// Searchbar
-// Filter
 
-// POST REQUESTS
+// POST REQUEST
 // Create User
 app.post("/api/user", async (req, res) => {
   console.log("[POST] entering '/user endpoint");
@@ -47,6 +45,8 @@ app.post("/api/user", async (req, res) => {
   }
 });
 
+// POST REQUEST
+// Create post
 app.post("/api/post/:userid", async (req, res) => {
   console.log("[POST] entering '/user/:userid' endpoint");
   const userid: string = req.params.userid;
@@ -74,8 +74,8 @@ app.listen(port, hostname, () => {
   console.log("Listening");
 });
 
-// PUT Requests
-// Edit Profile info
+// PUT REQUEST
+// Edit Profile Info (update this for other information in the profile)
 app.put("/api/user/profileurl/:userid", async (req, res) => {
   console.log("[PUT] entering '/api/user/profileUrl/:userid' endpoint");
   const userid: string = req.params.userid;
@@ -93,7 +93,7 @@ app.put("/api/user/profileurl/:userid", async (req, res) => {
   }
 });
 
-// DELETE Requests
+// DELETE REQUEST
 // Delete Post
 app.delete("/api/post/delete/:postid", async (req, res) => {
   console.log("[DELETE] entering '/api/post/delete/:postid' endpoint");
@@ -111,7 +111,7 @@ app.delete("/api/post/delete/:postid", async (req, res) => {
   }
 });
 
-// //GET Requests
+// GET REQUEST
 // Search bar filter
 app.get("/api/post/filter/:course", async (req, res) => {
   console.log("[GET] entering '/api/post/filter/:courses' endpoint");
@@ -125,3 +125,22 @@ app.get("/api/post/filter/:course", async (req, res) => {
     });
   }
 });
+
+// GET REQUEST
+// Filter by Availabilities
+app.get("/api/posts/filter/:course/:availability", async (req, res) => {
+  console.log(`[GET] entering '/api/posts/filter/${req.params.course}/${req.params.availability}' endpoint`);
+  const course = req.params.course;
+  const availability = req.params.availability;
+  try {
+    const filteredPosts = await filterPostsByAvailability(course, availability);
+    res.status(200).json(filteredPosts);
+  } catch (err) {
+    res.status(500).json({
+      error: `ERROR: an error occurred in the /api/posts/filter/:course/:availability endpoint: ${err}`,
+    });
+  }
+});
+
+// PUT REQUEST
+// Make edits to the post

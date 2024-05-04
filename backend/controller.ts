@@ -40,9 +40,21 @@ export const deletePost = async (postid: string) => {
 
 export const filterPostsByCourse = async (course: string): Promise<Post[]> => {
     const snapshot = await db.collection('posts').where('course', '==', course).get();
+    const filteredCourses: Post[] = [];
+    snapshot.forEach((doc) => {
+        filteredCourses.push(doc.data() as Post);
+    });
+    return filteredCourses;
+};
+
+export const filterPostsByAvailability = async (course: string, availability: string): Promise<Post[]> => {
+    const snapshot = await db.collection('posts').where('course', '==', course).get();
     const filteredPosts: Post[] = [];
     snapshot.forEach((doc) => {
-        filteredPosts.push(doc.data() as Post);
+        const postData = doc.data() as Post;
+        if (postData.availabilities.includes(availability)) {
+            filteredPosts.push(postData);
+        }
     });
     return filteredPosts;
 };
