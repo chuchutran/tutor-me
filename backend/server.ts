@@ -5,6 +5,7 @@ import { Post } from "./types";
 import { addUser, addPost } from "./controller";
 import { updateProfile } from "./controller";
 import { deletePost } from "./controller";
+import { filterPostsByCourse } from "./controller";
 
 
 const app: Express = express();
@@ -17,7 +18,7 @@ app.use(express.json());
 
 // **** didnt add in signup/ login requests yet
 // GET Requests
-// Searbar
+// Searchbar
 // Filter
 
 // POST REQUESTS
@@ -106,6 +107,21 @@ app.delete("/api/post/delete/:postid", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       error: `ERROR: an error occurred in the /api/post/delete/:postid endpoint: ${err}`,
+    });
+  }
+});
+
+// //GET Requests
+// Search bar filter
+app.get("/api/post/filter/:course", async (req, res) => {
+  console.log("[GET] entering '/api/post/filter/:courses' endpoint");
+  const course = req.params.course;
+  try {
+    const filteredPosts = await filterPostsByCourse(course);
+    res.status(200).json(filteredPosts);
+  } catch (err) {
+    res.status(500).json({
+      error: `ERROR: an error occurred in the /api/posts/filter/:course endpoint: ${err}`,
     });
   }
 });

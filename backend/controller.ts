@@ -37,3 +37,12 @@ export const deletePost = async (postid: string) => {
         console.error("Error deleting post:", error);
     }
 }
+
+export const filterPostsByCourse = async (course: string): Promise<Post[]> => {
+    const snapshot = await db.collection('posts').where('course', '==', course).get();
+    const filteredPosts: Post[] = [];
+    snapshot.forEach((doc) => {
+        filteredPosts.push(doc.data() as Post);
+    });
+    return filteredPosts;
+};
