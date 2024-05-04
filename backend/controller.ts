@@ -8,11 +8,9 @@ export const addUser = async (user: User) => {
 };
 
 export const getUser = async (userid: string) => {
-
 };
 
-export const addPost = async (userid: string, post: Post) => {
-    const person = await getUser(userid);
+export const addPost = async (post: Post) => {
     const docRef = await db.collection('posts').add(post);
     return docRef.id;
 };

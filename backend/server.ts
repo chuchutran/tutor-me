@@ -65,7 +65,7 @@ app.post("/api/user", async (req, res) => {
       description
     };
     try {
-      const postId = await addPost(userid, post);
+      const postId = await addPost(post);
       res.status(200).send({
         message: `SUCCESS added post with ID: ${postId} to the posts collection in Firestore`,
         postId: postId
