@@ -3,7 +3,7 @@ import cors from "cors";
 import { User } from "./types";
 import { Post } from "./types";
 import { addUser, addPost } from "./controller";
-import { updateProfile } from "./controller";
+import { updateUser } from "./controller";
 import { deletePost } from "./controller";
 import { filterPostsByCourse } from "./controller";
 import { filterPostsByAvailability } from "./controller";
@@ -75,20 +75,19 @@ app.listen(port, hostname, () => {
 });
 
 // PUT REQUEST
-// Edit Profile Info (update this for other information in the profile)
-app.put("/api/user/profileurl/:userid", async (req, res) => {
-  console.log("[PUT] entering '/api/user/profileUrl/:userid' endpoint");
+// Edit Profile Info 
+app.put("/api/user/:userid", async (req, res) => {
+  console.log(`[PUT] entering '/api/user/${req.params.userid}' endpoint`);
   const userid: string = req.params.userid;
-  const profileurl: string = req.body.profileurl
-
+  const { name, email, phone, profileUrl } = req.body;
   try {
-    await updateProfile(userid, profileurl);
+    await updateUser(userid, { name, email, phone, profileUrl });
     res.status(200).send({
-      message: `SUCESS updated user with userid: ${userid} from user collection in Firestore`,
+      message: `SUCCESS: Updated user with ID ${userid}`,
     });
   } catch (err) {
     res.status(500).json({
-      error: `ERROR: an error occured in the /api/user/:userid endpoint ${err}`,
+      error: `ERROR: an error occurred in the /api/user/:userid endpoint: ${err}`,
     });
   }
 });
@@ -131,7 +130,7 @@ app.get("/api/post/filter/:course", async (req, res) => {
 app.get("/api/posts/filter/:course/:availability", async (req, res) => {
   console.log(`[GET] entering '/api/posts/filter/${req.params.course}/${req.params.availability}' endpoint`);
   const course = req.params.course;
-  const availability = req.params.availability;
+  const availability = req.params.availability.split(','); // Split availability string into an array
   try {
     const filteredPosts = await filterPostsByAvailability(course, availability);
     res.status(200).json(filteredPosts);

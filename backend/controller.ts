@@ -15,15 +15,13 @@ export const addPost = async (post: Post) => {
     return docRef.id;
 };
 
-export const updateProfile = async (userid: string, profileUrl: string) => {
+export const updateUser = async (userid: string, newData: Partial<User>): Promise<void> => {
     const docRef = db.collection('users').doc(userid);
 
     try {
-        await docRef.update({
-            profileUrl: profileUrl
-        });
+        await docRef.update(newData);
     } catch (error) {
-        console.error("Error updating profile:", error);
+        console.error("Error updating user:", error);
         throw error;
     }
 };
@@ -47,14 +45,15 @@ export const filterPostsByCourse = async (course: string): Promise<Post[]> => {
     return filteredCourses;
 };
 
-export const filterPostsByAvailability = async (course: string, availability: string): Promise<Post[]> => {
+export const filterPostsByAvailability = async (course: string, availability: string[]): Promise<Post[]> => {
     const snapshot = await db.collection('posts').where('course', '==', course).get();
     const filteredPosts: Post[] = [];
     snapshot.forEach((doc) => {
         const postData = doc.data() as Post;
-        if (postData.availabilities.includes(availability)) {
+        if (availability.some((avail) => postData.availabilities.includes(avail))) {
             filteredPosts.push(postData);
         }
     });
     return filteredPosts;
 };
+
