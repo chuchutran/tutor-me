@@ -17,43 +17,16 @@ const port = 8080;
 app.use(cors());
 app.use(express.json());
 
-// **** didnt add in signup/ login requests yet
-
-// POST REQUEST
-// Create User
-app.post("/api/user", async (req, res) => {
-  console.log("[POST] entering '/user endpoint");
-  const { username, password, name, email, phone, profileUrl } = req.body;
-  const user: User = {
-    username,
-    password,
-    name,
-    email,
-    phone,
-    profileUrl
-  };
-  try {
-    const userId = await addUser(user);
-    res.status(200).send({
-      message: `SUCCESS added person with ID: ${userId} to the users collection in Firestore`,
-      userid: userId
-    });
-  } catch (err) {
-    res.status(500).json({
-      error: `ERROR: an error occurred in the /api/user endpoint: ${err}`,
-    });
-  }
-});
-
 // POST REQUEST
 // Create post
 app.post("/api/post/:userid", async (req, res) => {
   console.log("[POST] entering '/user/:userid' endpoint");
   const userid: string = req.params.userid;
   const { course, availabilities, description } = req.body;
+  const upperCaseCourse = course.toUpperCase();
   const post: Post = {
     userid,
-    course,
+    course: upperCaseCourse,
     availabilities,
     description
   };
@@ -144,21 +117,6 @@ app.get("/api/post/filter/:course", async (req, res) => {
   }
 });
 
-// GET REQUEST
-// Filter by Availabilities
-app.get("/api/posts/filter/:course/:availability", async (req, res) => {
-  console.log(`[GET] entering '/api/posts/filter/${req.params.course}/${req.params.availability}' endpoint`);
-  const course = req.params.course;
-  const availability = req.params.availability.split(','); // Split availability string into an array
-  try {
-    const filteredPosts = await filterPostsByAvailability(course, availability);
-    res.status(200).json(filteredPosts);
-  } catch (err) {
-    res.status(500).json({
-      error: `ERROR: an error occurred in the /api/posts/filter/:course/:availability endpoint: ${err}`,
-    });
-  }
-});
 
 // PUT REQUEST
 // Make edits to the post

@@ -2,10 +2,11 @@ import "./Post.css"
 
 interface PostProps {
   title: string;
+  course: string;
+  availabilities: string[];
   description: string;
   posterName: string;
   posterEmail: string;
-  availabilities: string[];
   classCode: string;
 }
 

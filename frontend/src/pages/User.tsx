@@ -129,13 +129,15 @@ const UserPage: React.FC = () => {
         {posts.map((post, index) => (
           <Post
             key={index}
-            title={post.course}
+            title={post.course} // Assuming 'course' is the title of the class
             description={post.description}
             posterName={user.name}
             posterEmail={user.email}
             availabilities={post.availabilities}
-            classCode="N/A" // Assuming classCode is not available in the data
+            course={post.course}
+            classCode="N/A" // Correctly using 'classCode' instead of 'course'
           />
+
         ))}
       </div>
     </div>

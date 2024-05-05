@@ -1,50 +1,51 @@
 import { useState } from 'react';
 import './Home.css';
-import Post from '../components/Post';
+import PostComponent from '../components/Post'; // Renamed to avoid confusion with the type
 import SearchBar from '../components/SearchBar';
 import { BACKEND_BASE_PATH } from "../constants/Navigation";
 
+interface PostData {
+  id: string;
+  course: string;
+  userid: string;
+  description: string;
+  availabilities: string[];
+}
+
+
 const HomePage = () => {
-    // setPosts updates "posts" [] with results of search
-    const [posts, setPosts] = useState<Post[]>([]);
-    // loading indicates if data is currently being fetched; setLoading toggles
-    const [loading, setLoading] = useState(false);
-    // setError sets "error" to an error message if any issues occur
-    const [error, setError] = useState(null);
+  const [posts, setPosts] = useState<PostData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    // Handles search operation when user submits query
-    const handleSearch = async (query: string) => {
-    // console.log('Searching for:', query);
-      setLoading(true); // indicate data is being fetched
-      setError(null); // clear any existing error messages
+  const handleSearch = async (query: string) => {
+    setLoading(true);
+    setError(null);
 
-      try {
-          // Construct the URL for the specific search endpoint
-          // Calls the backend endpoint directly to search posts by course; based on "query" aka user search field input
-          const response = await fetch(`${BACKEND_BASE_PATH}/post/filter/${encodeURIComponent(query)}`);
-          if (!response.ok) { // if failure
-          // return unsuccessful response
-          throw new Error(`Error fetching posts for course: ${query}`);
-          }
-          const data = await response.json(); // Parse the JSON response from the server
-          setPosts(data); // Update "posts" with data fetched from server
-      } catch (err) {
-          // console.error("API Error:", err);
-          setError(err.message || "An unknown error occurred.");
-      } finally {
-          setLoading(false); // indicate data fetching completed
+    try {
+      const response = await fetch(`${BACKEND_BASE_PATH}/post/filter/${encodeURIComponent(query)}`);
+      if (!response.ok) {
+        throw new Error(`Error fetching posts for course: ${query}`);
       }
-    };
+      const data = await response.json();
+      setPosts(data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div id='home-page' className='hero'>
       <h1 style={{ fontSize: "4rem", marginTop: "4rem", marginBottom: "0" }}>Tutor Me</h1>
       <div style={{ fontSize: "1.1rem", marginTop: "0" }}>Student tutoring platform for Cornell Students</div>
       <div style={{ fontSize: "1.8rem", marginTop: "6rem" }}>What class do you need help with?</div>
-      {/* Search Bar */}
       <SearchBar onSearch={handleSearch} />
-      
-      {/* Display Posts */}
       <div style={{ marginTop: "2rem" }}>
         <h2>Results:</h2>
         {loading ? (
@@ -52,11 +53,19 @@ const HomePage = () => {
         ) : error ? (
           <p>Error: {error}</p>
         ) : posts.length > 0 ? (
-          <ul>
-            {posts.map((post) => (
-              <li key={post.id}>{post.description}</li>
-            ))}
-          </ul>
+          posts.map((post) => (
+            <li key={post.id}>
+              <PostComponent
+                title={post.course}
+                description={post.description}
+                posterName={post.userid} // Assuming you have user's name accessible via userid or similar
+                posterEmail="email@example.com" // Assuming email is not part of the post data
+                availabilities={post.availabilities}
+                course={post.course}
+                classCode={post.course} // Assuming you're using course as classCode
+              />
+            </li>
+          ))
         ) : (
           <p>No posts found for this course.</p>
         )}
