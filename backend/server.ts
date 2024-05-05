@@ -2,11 +2,11 @@ import express, { Express } from "express";
 import cors from "cors";
 import { User } from "./types";
 import { Post } from "./types";
-import { addUser, addPost } from "./controller";
+import { addPost } from "./controller";
 import { getUser, updateUser } from "./controller";
 import { deletePost } from "./controller";
 import { filterPostsByCourse } from "./controller";
-import { filterPostsByAvailability } from "./controller";
+import { updatePost } from "./controller";
 
 
 const app: Express = express();
@@ -52,9 +52,9 @@ app.listen(port, hostname, () => {
 app.put("/api/user/:userid", async (req, res) => {
   console.log(`[PUT] entering '/api/user/${req.params.userid}' endpoint`);
   const userid: string = req.params.userid;
-  const { name, email, phone, profileUrl } = req.body;
+  const { name, email, phone, imageUrl } = req.body;
   try {
-    await updateUser(userid, { name, email, phone, profileUrl });
+    await updateUser(userid, { name, email, phone, imageUrl });
     res.status(200).send({
       message: `SUCCESS: Updated user with ID ${userid}`,
     });
@@ -119,4 +119,19 @@ app.get("/api/post/filter/:course", async (req, res) => {
 
 
 // PUT REQUEST
-// Make edits to the post
+// Edit Post info
+app.put("/api/post/:postid", async (req, res) => {
+  console.log(`[PUT] entering '/api/post/${req.params.postid}' endpoint`);
+  const postid: string = req.params.postid;
+  const { course, availabilities, description } = req.body;
+  try {
+    await updatePost(postid, { course, availabilities, description });
+    res.status(200).send({
+      message: `SUCCESS: Updated post with ID ${postid}`,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: `ERROR: an error occurred in the /api/post/:postid endpoint: ${err}`,
+    });
+  }
+});
