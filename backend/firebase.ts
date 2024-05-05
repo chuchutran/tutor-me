@@ -3,6 +3,7 @@
 import serviceAccount from "./service_account.json";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import firebase from "./firebaseConfig.json"
 
 
@@ -17,6 +18,10 @@ const firebaseConfig = {
 
 
 const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 signInWithPopup(auth, provider)
@@ -45,6 +50,6 @@ signInWithPopup(auth, provider)
   });
 
 const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-export { app, provider, signInWithGooglePopup }
+export { app, provider, signInWithGooglePopup, auth, db }
 
 /**import { db } from "./firebase";```*/

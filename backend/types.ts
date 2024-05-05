@@ -1,11 +1,7 @@
 export type User = {
     username: string;
     password: string;
-    name: {
-        first: string;
-        middle?: string;
-        last: string;
-    };
+    name: string;
     email: string;
     phone?: string;
     profileUrl?: string;
