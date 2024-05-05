@@ -17,8 +17,6 @@ const port = 8080;
 app.use(cors());
 app.use(express.json());
 
-// **** didnt add in signup/ login requests yet
-
 // POST REQUEST
 // Create User
 app.post("/api/user", async (req, res) => {
@@ -51,9 +49,10 @@ app.post("/api/post/:userid", async (req, res) => {
   console.log("[POST] entering '/user/:userid' endpoint");
   const userid: string = req.params.userid;
   const { course, availabilities, description } = req.body;
+  const upperCaseCourse = course.toUpperCase();
   const post: Post = {
     userid,
-    course,
+    course: upperCaseCourse,
     availabilities,
     description
   };

@@ -11,7 +11,8 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
 
   // Updates the `query` state whenever the input changes
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    const upperCaseQuery = event.target.value.toUpperCase();
+    setQuery(upperCaseQuery);
   };
 
   // Triggers a search when the search button is clicked or Enter key is pressed
