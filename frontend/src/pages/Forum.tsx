@@ -1,17 +1,9 @@
 // ForumPage.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import Post from '../components/Post';
-import "./User.css"
-import { searchPosts, fetchAllPosts } from '../utils/api'; // Adjust the path as needed
+import { fetchUserDetails, searchPosts, fetchAllPosts } from '../utils/api'; // Adjust path as needed
 import './Forum.css';
-
-interface User {
-  name: string;
-  email: string;
-  phone: string;
-  imageUrl: string;
-}
 
 interface PostData {
   userid: string;
@@ -20,37 +12,73 @@ interface PostData {
   description: string;
 }
 
+interface PostWithUserDetails extends PostData {
+  posterName: string;
+  posterEmail: string;
+}
+
 const ForumPage = () => {
-  const [posts, setPosts] = useState<PostData[]>([]);
+  const [posts, setPosts] = useState<PostWithUserDetails[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to handle search queries by querying the database
+  // Function to fetch all posts and user details
+  const fetchAllPostsWithUserDetails = async () => {
+    setLoading(true);
+    setError(null);
+  
+    try {
+      const postData = await fetchAllPosts();
+      const detailedPosts = await Promise.all(
+        postData.map(async (post) => {
+          const user = await fetchUserDetails(post.userid);
+          // Log the result for debugging
+          console.log(`User details for ${post.userid}:`, user);
+  
+          return {
+            ...post,
+            posterName: user?.name || "Unknown",
+            posterEmail: user?.email || "No email available"
+          };
+        })
+      );
+      setPosts(detailedPosts);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+  // Function to handle search queries and fetch user details
   const handleSearch = async (query: string) => {
     setLoading(true);
     setError(null);
 
-    const data = await searchPosts(query);
-    if (data.length === 0) {
-      setError('No posts found for this query.');
+    try {
+      const postData = await searchPosts(query);
+      const detailedPosts = await Promise.all(
+        postData.map(async (post) => {
+          const user = await fetchUserDetails(post.userid);
+          return {
+            ...post,
+            posterName: user?.name || "Unknown",
+            posterEmail: user?.email || "No email available"
+          };
+        })
+      );
+      setPosts(detailedPosts);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+    } finally {
+      setLoading(false);
     }
-    setPosts(data);
-    setLoading(false);
   };
 
-  // Optionally load all posts initially
-  const loadAllPosts = async () => {
-    setLoading(true);
-    setError(null);
-
-    const data = await fetchAllPosts();
-    setPosts(data);
-    setLoading(false);
-  };
-
-  // Load all posts once when the component mounts
-  useState(() => {
-    loadAllPosts();
+  // Load all posts initially
+  useEffect(() => {
+    fetchAllPostsWithUserDetails();
   }, []);
 
   return (
@@ -76,13 +104,12 @@ const ForumPage = () => {
             posts.map((post, index) => (
               <Post
                 key={index}
-                title={post.course} // Assuming 'course' is the title of the class
+                title={post.course}
                 description={post.description}
-                posterName={user.name}
-                posterEmail={user.email}
+                posterName={post.posterName}
+                posterEmail={post.posterEmail}
                 availabilities={post.availabilities}
                 course={post.course}
-                classCode="N/A" // Correctly using 'classCode' instead of 'course'
               />
             ))
           ) : (

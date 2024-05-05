@@ -10,6 +10,34 @@ interface PostData {
   classCode: string;
 }
 
+interface User {
+  name: string;
+  email: string;
+  phone: string;
+  imageUrl: string;
+}
+
+/**
+ * Fetch user details by their user ID.
+ * @param userid - The unique identifier of the user.
+ * @returns A promise resolving to a User object or `null` if not found.
+ */
+export const fetchUserDetails = async (userid: string): Promise<User | null> => {
+  try {
+    const response = await fetch(`${BACKEND_BASE_PATH}/api/user/${encodeURIComponent(userid)}`);
+    if (!response.ok) {
+      throw new Error(`Error fetching user details for ID: ${userid}`);
+    }
+    const user = await response.json();
+    console.log('Fetched user:', user); // Log the user data fetched
+    return user;
+  } catch (error) {
+    console.error('API Error:', error);
+    return null;
+  }
+};
+
+
 /**
  * Fetch posts based on a search query.
  * @param query - The search string to filter posts.
