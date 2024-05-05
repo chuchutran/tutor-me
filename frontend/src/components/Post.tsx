@@ -3,12 +3,12 @@ import "./Post.css"
 interface PostProps {
   title: string;
   description: string;
-  posterId: string;
   posterName: string;
   posterEmail: string;
   availabilities: string[];
   classCode: string;
 }
+
 
 
 import React from 'react';
@@ -27,7 +27,7 @@ const Post: React.FC<PostProps> = ({
         <div className="postDetails">
           <div>Posted by: {posterName}</div>
           <div>Email: {posterEmail}</div>
-          <div>Availability: {availabilities.join(', ')}</div>
+          <div>Availability: {availabilities}</div>
           <p>{description}</p>
         </div>
         <div className="postClass">

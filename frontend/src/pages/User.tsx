@@ -4,6 +4,7 @@ import bear from "../assets/tutorme.svg"
 import { auth, db } from "../../../backend/firebase";
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { User as FirebaseUser } from "firebase/auth";
+import Post from "../components/Post";
 
 interface User {
   name: string;
@@ -12,7 +13,7 @@ interface User {
   imageUrl: string;
 }
 
-interface Post {
+interface PostData {
   userid: string;
   course: string;
   availabilities: string[];
@@ -22,7 +23,7 @@ interface Post {
 const UserPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [phone, setPhone] = useState<string>("");
-  const [posts, setPosts] = useState<Post[]>([]); // Use the Post interface here
+  const [posts, setPosts] = useState<PostData[]>([]);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -96,7 +97,7 @@ const UserPage: React.FC = () => {
         const postsRef = collection(db, "posts"); // Assuming 'posts' is the name of the collection
         const q = query(postsRef, where("userid", "==", auth.currentUser.uid));
         const querySnapshot = await getDocs(q);
-        const fetchedPosts = querySnapshot.docs.map(doc => doc.data() as Post);
+        const fetchedPosts = querySnapshot.docs.map(doc => doc.data() as PostData);
         setPosts(fetchedPosts);
       }
     };
@@ -125,17 +126,17 @@ const UserPage: React.FC = () => {
       <button onClick={updateUserDetails}>Update Phone Number</button>
       <div>
         <h3>Your Posts:</h3>
-        {posts.length > 0 ? (
-          posts.map((post, index) => (
-            <div key={index}>
-              <h4>{post.course}</h4>
-              <p>Available: {post.availabilities}</p>
-              <p>{post.description}</p>
-            </div>
-          ))
-        ) : (
-          <p>No posts found.</p>
-        )}
+        {posts.map((post, index) => (
+          <Post
+            key={index}
+            title={post.course}
+            description={post.description}
+            posterName={user.name}
+            posterEmail={user.email}
+            availabilities={post.availabilities}
+            classCode="N/A" // Assuming classCode is not available in the data
+          />
+        ))}
       </div>
     </div>
   );
