@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './Home.css';
-import PostComponent from '../components/Post'; // Renamed to avoid confusion with the type
+import PostComponent from '../components/Post';
 import SearchBar from '../components/SearchBar';
-import { BACKEND_BASE_PATH } from "../constants/Navigation";
+import { searchPosts } from '../utils/api'; // Adjust path if needed
 
 interface PostData {
   id: string;
@@ -12,22 +12,18 @@ interface PostData {
   availabilities: string[];
 }
 
-
 const HomePage = () => {
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Use the `searchPosts` utility function
   const handleSearch = async (query: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${BACKEND_BASE_PATH}/post/filter/${encodeURIComponent(query)}`);
-      if (!response.ok) {
-        throw new Error(`Error fetching posts for course: ${query}`);
-      }
-      const data = await response.json();
+      const data = await searchPosts(query);
       setPosts(data);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -58,11 +54,9 @@ const HomePage = () => {
               <PostComponent
                 title={post.course}
                 description={post.description}
-                posterName={post.userid} // Assuming you have user's name accessible via userid or similar
-                posterEmail="email@example.com" // Assuming email is not part of the post data
+                posterName={post.userid}
                 availabilities={post.availabilities}
                 course={post.course}
-                classCode={post.course} // Assuming you're using course as classCode
               />
             </li>
           ))

@@ -2,26 +2,26 @@
 import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import Post from '../components/Post';
+import "./User.css"
 import { searchPosts, fetchAllPosts } from '../utils/api'; // Adjust the path as needed
 import './Forum.css';
 
-interface PostData {
-  id: string;
-  title: string;
-  description: string;
-  posterId: string;
-  classCode: string;
+interface User {
+  name: string;
+  email: string;
+  phone: string;
+  imageUrl: string;
 }
 
-interface PostData2 {
+interface PostData {
   userid: string;
   course: string;
-  availabilities: string;
+  availabilities: string[];
   description: string;
 }
 
 const ForumPage = () => {
-  const [posts, setPosts] = useState<PostData2[]>([]);
+  const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -73,12 +73,16 @@ const ForumPage = () => {
           ) : error ? (
             <p>Error: {error}</p>
           ) : posts.length > 0 ? (
-            posts.map((post) => (
+            posts.map((post, index) => (
               <Post
-                userid={post.userid}
+                key={index}
+                title={post.course} // Assuming 'course' is the title of the class
                 description={post.description}
+                posterName={user.name}
+                posterEmail={user.email}
                 availabilities={post.availabilities}
                 course={post.course}
+                classCode="N/A" // Correctly using 'classCode' instead of 'course'
               />
             ))
           ) : (
