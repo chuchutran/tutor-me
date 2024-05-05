@@ -4,7 +4,7 @@ export type User = {
     name: string;
     email: string;
     phone?: string;
-    profileUrl?: string;
+    imageUrl?: string;
 };
 
 // Type for Posts
