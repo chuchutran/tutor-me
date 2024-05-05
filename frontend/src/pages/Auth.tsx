@@ -4,6 +4,7 @@ import { User } from "firebase/auth"; // Import the User type from Firebase Auth
 import "./Auth.css"
 import g from "../assets/G.png"
 
+
 const AuthPage = () => {
   const [user, setUser] = useState<User | null>(null); // Explicitly type the user state
 
@@ -29,6 +30,7 @@ const AuthPage = () => {
           <button onClick={signInWithGooglePopup}>Sign in with Google</button>
         </div>
       )}
+
     </div>
   );
 };
