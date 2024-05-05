@@ -114,29 +114,32 @@ const UserPage: React.FC = () => {
       <h1 className="hero">User Dashboard</h1>
       <img src={user.imageUrl} alt="Profile" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
       <h2>{user.name}</h2>
-      <div className='email'>
+      <div className='email' style={{ marginBottom: "1em" }}>
         <label htmlFor="email">Email:</label>
         <div>{user.email}</div>
       </div>
-      <div>
-        <label htmlFor="phone">Phone:</label>
+      <div style={{ marginBottom: "1em" }}>
+        <label htmlFor="phone" >Phone:</label>
         <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
       <button onClick={updateUserDetails}>Update Phone Number</button>
       <div className="full-width-container">
         <div className='post-list'>
-          <h3>Your Posts:</h3>
+          <h2>Your Posts:</h2>
           {posts.map((post, index) => (
-            <Post
-              key={index}
-              title={post.course} // Assuming 'course' is the title of the class
-              description={post.description}
-              posterName={user.name}
-              posterEmail={user.email}
-              availabilities={post.availabilities}
-              course={post.course}
-              classCode="N/A" // Correctly using 'classCode' instead of 'course'
-            />
+            <div style={{ marginBottom: "2em" }}>
+              <Post
+                key={index}
+                title={post.course}
+                description={post.description}
+                posterName={user.name}
+                posterEmail={user.email}
+                availabilities={post.availabilities}
+                course={post.course}
+                classCode="N/A"
+
+              />
+            </div>
 
           ))}
         </div>

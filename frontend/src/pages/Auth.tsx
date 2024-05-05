@@ -19,6 +19,12 @@ const AuthPage = () => {
   return (
     <div id='auth-page'>
       <h1 className="hero">{user ? `Hello, ${user.displayName || "User"}` : "Login"}</h1>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: "2em"
+      }}> {user ? "You are currently logged in!" : "Please sign in first"}</div>
       {user ? (
         <div className="signout">
           <button onClick={() => auth.signOut()}>Sign out</button>
