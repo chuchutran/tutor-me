@@ -1,7 +1,10 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./User.css"
 import bear from "../assets/tutorme.svg"
-import { auth } from "../../../backend/firebase";
+import { auth, db } from "../../../backend/firebase";
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { User as FirebaseUser } from "firebase/auth";
+
 
 // Define an interface for the user type
 interface User {
@@ -15,36 +18,29 @@ const UserPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+    const checkUser = async () => {
+      const currentUser: FirebaseUser | null = auth.currentUser;
       if (currentUser) {
-        // Assuming the Firebase user object includes these fields directly or you fetch them from a database
-        setUser({
-          name: currentUser.displayName || "Anonymous",
-          email: currentUser.email || "No email",
-          phone: "123-456-7890", // Example, you might want to fetch this from a database
-          imageUrl: currentUser.photoURL || bear
-        });
-      } else {
-        setUser(null);
+        const userRef = doc(db, "users", currentUser.uid);
+        const docSnap = await getDoc(userRef);
+
+        if (docSnap.exists()) {
+          setUser(docSnap.data() as User);
+        } else {
+          const newUser = {
+            name: currentUser.displayName || "Anonymous",
+            email: currentUser.email || "No email",
+            phone: "",  // Default or prompt for a phone number?
+            imageUrl: currentUser.photoURL || bear
+          };
+          await setDoc(userRef, newUser);
+          setUser(newUser);
+        }
       }
-    });
+    };
 
-    return () => unsubscribe();
+    checkUser();
   }, []);
-
-  // Handle changes to the email input
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (user) {
-      setUser({ ...user, email: event.target.value });
-    }
-  };
-
-  // Handle changes to the phone input
-  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (user) {
-      setUser({ ...user, phone: event.target.value });
-    }
-  };
 
   if (!user) return <div>Please login first!</div>;
 
@@ -55,21 +51,11 @@ const UserPage: React.FC = () => {
       <h2>{user.name}</h2>
       <div>
         <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          value={user.email}
-          onChange={handleEmailChange}
-        />
+        <input type="email" id="email" value={user.email} readOnly />
       </div>
       <div>
         <label htmlFor="phone">Phone:</label>
-        <input
-          type="tel"
-          id="phone"
-          value={user.phone}
-          onChange={handlePhoneChange}
-        />
+        <input type="tel" id="phone" value={user.phone} readOnly />
       </div>
     </div>
   );

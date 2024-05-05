@@ -31,13 +31,7 @@ signInWithPopup(auth, provider)
     const token = credential!.accessToken;
     // The signed-in user info.
     const user = result.user;
-    console.log('UID:', user.uid);
-    console.log('Display Name:', user.displayName);
-    console.log('Email:', user.email);
-    console.log('Photo URL:', user.photoURL);
-    console.log
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
+
   }).catch((error) => {
     // Handle Errors here.
     const errorCode = error.code;
