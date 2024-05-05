@@ -107,7 +107,6 @@ const UserPage: React.FC = () => {
   }, []);
 
 
-
   if (!user) return <div>Please login first!</div>;
 
   return (
@@ -124,21 +123,24 @@ const UserPage: React.FC = () => {
         <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
       <button onClick={updateUserDetails}>Update Phone Number</button>
-      <div>
-        <h3>Your Posts:</h3>
-        {posts.map((post, index) => (
-          <Post
-            key={index}
-            title={post.course} // Assuming 'course' is the title of the class
-            description={post.description}
-            posterName={user.name}
-            posterEmail={user.email}
-            availabilities={post.availabilities}
-            course={post.course}
-            classCode="N/A" // Correctly using 'classCode' instead of 'course'
-          />
+      <div className="full-width-container">
+        <div className='post-list'>
+          <h3>Your Posts:</h3>
+          {posts.map((post, index) => (
+            <Post
+              key={index}
+              title={post.course} // Assuming 'course' is the title of the class
+              description={post.description}
+              posterName={user.name}
+              posterEmail={user.email}
+              availabilities={post.availabilities}
+              course={post.course}
+              classCode="N/A" // Correctly using 'classCode' instead of 'course'
+            />
 
-        ))}
+          ))}
+        </div>
+
       </div>
     </div>
   );
