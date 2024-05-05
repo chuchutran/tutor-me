@@ -47,5 +47,4 @@ signInWithPopup(auth, provider)
 const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 export { app, provider, signInWithGooglePopup }
 
-
 /**import { db } from "./firebase";```*/
