@@ -5,6 +5,8 @@ import RootLayout from "./layouts/RootLayout";
 import { PATHS } from "./constants/Navigation";
 import "./index.css";
 
+// console.log(app, provider, signInWithPopup)
+
 const router = createBrowserRouter([
     {
         path: "/",
