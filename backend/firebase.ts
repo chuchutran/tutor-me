@@ -1,8 +1,9 @@
 // // import { initializeApp, applicationDefault, cert } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+// import { getFirestore } from "firebase-admin/firestore";
 import serviceAccount from "./service_account.json";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import firebase from "./firebaseConfig.json"
 
 
@@ -18,7 +19,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// const db = getFirestore(app);
+const db = getFirestore(app);
 
 
 const provider = new GoogleAuthProvider();
@@ -49,7 +50,7 @@ signInWithPopup(auth, provider)
   });
 
 const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-export { app, provider, signInWithGooglePopup, auth }
+export { app, provider, signInWithGooglePopup, auth, db }
 
 
 /**import { db } from "./firebase";```*/
