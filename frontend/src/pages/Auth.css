@@ -1,3 +1,17 @@
 .hero {
   justify-content: center;
 }
+
+.signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.signout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
