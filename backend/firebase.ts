@@ -3,15 +3,18 @@
 import serviceAccount from "./service_account.json";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
+import firebase from "./firebaseConfig.json"
+
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1_B6ae524zd30BL8U6zzxKIwnphCY3U8",
-  authDomain: "tutor-me-1e7ff.firebaseapp.com",
-  projectId: "tutor-me-1e7ff",
-  storageBucket: "tutor-me-1e7ff.appspot.com",
-  messagingSenderId: "805343527979",
-  appId: "1:805343527979:web:f3e2ae2b2a5e13659cd66e"
+  apiKey: firebase.apiKey,
+  authDomain: firebase.authDomain,
+  projectId: firebase.projectId,
+  storageBucket: firebase.storageBucket,
+  messagingSenderId: firebase.messagingSenderId,
+  appId: firebase.appId
 };
+
 
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
