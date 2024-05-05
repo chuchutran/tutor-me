@@ -1,14 +1,22 @@
 .postItem {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  padding: 10px;
   border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 16px;
-  padding: 16px;
-  background: #fff;
-  border-radius: 8px;
-  width: 90%;
-  /* Adjust the width as needed */
-  max-width: 800px;
-  /* Maximum width for larger screens */
+  margin-bottom: 10px;
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.postDetails {
+  text-align: left;
+}
+
+.postClass {
+  text-align: right;
 }

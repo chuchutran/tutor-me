@@ -4,18 +4,37 @@ interface PostProps {
   title: string;
   description: string;
   posterId: string;
+  posterName: string;
+  posterEmail: string;
+  availabilities: string[];
   classCode: string;
 }
 
+
 import React from 'react';
 
-const Post: React.FC<PostProps> = ({ title, description, posterId, classCode }) => {
+const Post: React.FC<PostProps> = ({
+  title,
+  description,
+  posterName,
+  posterEmail,
+  availabilities,
+  classCode
+}) => {
   return (
     <div className="postItem">
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <div>Posted by: {posterId}</div>
-      <div>Class Code: {classCode}</div>
+      <div className="postHeader">
+        <div className="postDetails">
+          <div>Posted by: {posterName}</div>
+          <div>Email: {posterEmail}</div>
+          <div>Availability: {availabilities.join(', ')}</div>
+          <p>{description}</p>
+        </div>
+        <div className="postClass">
+          <h1>{title}</h1>
+          <div>Class Code: {classCode}</div>
+        </div>
+      </div>
     </div>
   );
 };

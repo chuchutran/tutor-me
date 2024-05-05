@@ -129,7 +129,7 @@ const UserPage: React.FC = () => {
           posts.map((post, index) => (
             <div key={index}>
               <h4>{post.course}</h4>
-              <p>Available: {post.availabilities.join(', ')}</p>
+              <p>Available: {post.availabilities}</p>
               <p>{post.description}</p>
             </div>
           ))
