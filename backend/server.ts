@@ -3,7 +3,7 @@ import cors from "cors";
 import { User } from "./types";
 import { Post } from "./types";
 import { addUser, addPost } from "./controller";
-import { updateUser } from "./controller";
+import { getUser, updateUser } from "./controller";
 import { deletePost } from "./controller";
 import { filterPostsByCourse } from "./controller";
 import { filterPostsByAvailability } from "./controller";
@@ -106,6 +106,25 @@ app.delete("/api/post/delete/:postid", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       error: `ERROR: an error occurred in the /api/post/delete/:postid endpoint: ${err}`,
+    });
+  }
+});
+
+// GET REQUEST
+// Get user by ID
+app.get("/api/user/:userid", async (req, res) => {
+  console.log("[GET] entering '/api/user/:userid' endpoint");
+  const userid = req.params.userid;
+  try {
+    const user = await getUser(userid);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ error: `User with ID ${userid} not found` });
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: `ERROR: an error occurred in the /api/user/:userid endpoint: ${err}`,
     });
   }
 });

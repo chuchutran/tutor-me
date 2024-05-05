@@ -1,7 +1,7 @@
 import { User } from "./types";
 import { Post } from "./types";
 import { db } from "./firebase";
-import { collection, doc, addDoc, getDocs, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
+import { collection, doc, addDoc, getDoc, getDocs, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 
 export const addUser = async (user: User) => {
   const docRef = await addDoc(collection(db, 'users'), user);
@@ -10,6 +10,14 @@ export const addUser = async (user: User) => {
 };
 
 export const getUser = async (userid: string) => {
+    const userRef = doc(db, 'users', userid);
+    const docSnapshot = await getDoc(userRef);
+
+    if (docSnapshot.exists()) {
+        return docSnapshot.data() as User;
+    } else {
+        return null;
+    }
 };
 
 export const addPost = async (post: Post) => {
