@@ -4,12 +4,14 @@ import PostComponent from '../components/Post';
 import SearchBar from '../components/SearchBar';
 import { searchPosts } from '../utils/api'; // Adjust path if needed
 
+
 interface PostData {
   id: string;
-  course: string;
-  userid: string;
+  title: string;
   description: string;
-  availabilities: string[];
+  userid: string;
+  classCode: string;
+  availabilities: string[]
 }
 
 const HomePage = () => {
@@ -52,11 +54,11 @@ const HomePage = () => {
           posts.map((post) => (
             <li key={post.id}>
               <PostComponent
-                title={post.course}
+                title={post.title}
                 description={post.description}
                 posterName={post.userid}
+                posterEmail="null"
                 availabilities={post.availabilities}
-                course={post.course}
               />
             </li>
           ))
