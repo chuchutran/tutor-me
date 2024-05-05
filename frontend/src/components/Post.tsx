@@ -25,16 +25,15 @@ const Post: React.FC<PostProps> = ({
   return (
     <div className="postItem">
       <div className="postHeader">
-        <div className="postDetails">
-          <div>Posted by: {posterName}</div>
-          <div>Email: {posterEmail}</div>
-          <div>Availability: {availabilities}</div>
-          <p>{description}</p>
-        </div>
-        <div className="postClass">
-          <h1>{title}</h1>
-          <div>Class Code: {classCode}</div>
-        </div>
+
+        <div style={{ fontWeight: "bold", fontSize: "1.5em" }}>{posterName}</div>
+        <div style={{ fontWeight: "bold", fontSize: "1.5em" }}>{title}</div>
+
+      </div>
+      <div className="postDetails">
+        <div>Email: {posterEmail}</div>
+        <div>Availability: {availabilities}</div>
+        <p>Description: {description}</p>
       </div>
     </div>
   );
