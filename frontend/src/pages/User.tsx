@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import "./User.css"
 import bear from "../assets/tutorme.svg"
+
 // Define an interface for the user type
 interface User {
   name: string;
