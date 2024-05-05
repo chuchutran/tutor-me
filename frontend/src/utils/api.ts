@@ -44,4 +44,3 @@ export const fetchAllPosts = async (): Promise<PostData[]> => {
   }
 };
 
-// You can add more functions here for other API endpoints as needed
