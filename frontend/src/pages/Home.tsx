@@ -4,12 +4,14 @@ import PostComponent from '../components/Post';
 import SearchBar from '../components/SearchBar';
 import { BACKEND_BASE_PATH } from "../constants/Navigation";
 
+
 interface PostData {
   id: string;
-  course: string;
-  userid: string;
+  title: string;
   description: string;
-  availabilities: string[];
+  userid: string;
+  classCode: string;
+  availabilities: string[]
 }
 
 
@@ -48,30 +50,28 @@ const HomePage = () => {
       <div style={{ fontSize: "1.ß1rem", marginTop: "0" }}>Student tutoring platform for Cornell Students</div>
       <div style={{ fontSize: "1.8rem", marginTop: "6rem" }}>What class do you need help with?</div>
       <SearchBar onSearch={handleSearch} />
-      {posts.length > 0 && ( // Only display the "Results" section if posts are found
-        <div style={{ marginTop: "2rem" }}>
-          <h2>Results:</h2>
-          {loading ? (
-            <p>Loading posts...</p>
-          ) : error ? (
-            <p>Error: {error}</p>
-          ) : (
-            posts.map((post) => (
-              <li key={post.id}>
-                <PostComponent
-                  title={post.course}
-                  description={post.description}
-                  posterName={post.userid}
-                  posterEmail="email@example.com"
-                  availabilities={post.availabilities}
-                  course={post.course}
-                  classCode={post.course}
-                />
-              </li>
-            ))
-          )}
-        </div>
-      )}
+      <div style={{ marginTop: "2rem" }}>
+        <h2>Results:</h2>
+        {loading ? (
+          <p>Loading posts...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : posts.length > 0 ? (
+          posts.map((post) => (
+            <li key={post.id}>
+              <PostComponent
+                title={post.title}
+                description={post.description}
+                posterName={post.userid}
+                posterEmail="null"
+                availabilities={post.availabilities}
+              />
+            </li>
+          ))
+        ) : (
+          <p>No posts found for this course.</p>
+        )}
+      </div>
       <div className="instructions">
         <h2>Instructions</h2>
         <p>1. Enter the name of the class you need help with in the search bar above.</p>
