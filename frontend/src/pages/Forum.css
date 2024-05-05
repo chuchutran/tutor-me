@@ -1,36 +1,20 @@
+/* General page styling, focusing on the forum page layout */
 .pageTitle {
   display: flex;
   flex-direction: column;
-  /* Establishes this element as a flex container */
   justify-content: center;
-  /* Horizontally centers the flex items */
+  /* Vertically centers the flex items within pageTitle */
   align-items: center;
+  /* Horizontally centers the flex items within pageTitle */
+  width: 100%;
+  /* Ensures the container takes full width */
 }
 
+/* Container for content below the page title, ensuring everything is centered */
 .contentContainer {
   display: flex;
+  flex-direction: column;
+  /* Aligns children (like search bar and post list) vertically */
   width: 100%;
-  margin-top: 1rem;
-}
 
-/* Filters section positioned on the left with a fixed width */
-.filtersSection {
-  width: 500px; /* Adjust according to required filter space */
-  margin-right: 2rem; /* Space between filters and posts */
-  border-right: 1px solid #ccc; /* Optional separator line */
-  padding-right: 1rem;
-  padding-left: 3rem;
-}
-
-/* Posts section aligned to the right */
-.postsContainer {
-  flex: 1; /* Takes up the remaining space on the right */
-  display: flex;
-  flex-direction: column; /* Stacks posts vertically */
-  align-items: flex-start; /* Aligns posts to the left of this section */
-}
-
-.longSearchBarContainer .searchInput {
-  width: 170%; /* Adjust this percentage as needed */
-  max-width: 1000px; /* Or set a specific pixel width */
 }

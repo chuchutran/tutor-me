@@ -99,32 +99,33 @@ const ForumPage = () => {
       <div className="longSearchBarContainer">
         <SearchBar onSearch={handleSearch} />
       </div>
-
-      <div className='contentContainer'>
-
-
-        <div className='postsContainer'>
+      <div className="full-width-container">
+        <div className='post-list'>
           {loading ? (
             <p>Loading posts...</p>
           ) : error ? (
             <p>Error: {error}</p>
           ) : posts.length > 0 ? (
             posts.map((post, index) => (
-              <Post
-                key={index}
-                title={post.title} //course name
-                description={post.description}
-                posterName={post.posterName}
-                posterEmail={post.posterEmail}
-                availabilities={post.availabilities}
-              />
+              <div style={{ marginBottom: "2em" }}>
+                <Post
+                  key={index}
+                  title={post.classCode} // title is used here, previously it was "course name"
+                  description={post.description}
+                  posterName={post.posterName}
+                  posterEmail={post.posterEmail}
+                  availabilities={post.availabilities}
+                />
+              </div>
             ))
           ) : (
             <p>No posts found.</p>
           )}
         </div>
       </div>
+
     </div>
+
   );
 };
 
