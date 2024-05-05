@@ -1,54 +1,85 @@
-import Post from '../components/Post'
-import './Forum.css'
+// ForumPage.tsx
+import { useState } from 'react';
+import SearchBar from '../components/SearchBar';
+import Post from '../components/Post';
+import { searchPosts, fetchAllPosts } from '../utils/api'; // Adjust the path as needed
+import './Forum.css';
+
 interface PostData {
+  id: string;
   title: string;
   description: string;
   posterId: string;
   classCode: string;
 }
 
-const posts: PostData[] = [
-  {
-    title: "Introduction to React",
-    description: "Learn the basics of React including components, state, and props.",
-    posterId: "user123",
-    classCode: "CS101"
-  },
-  {
-    title: "Advanced React Patterns",
-    description: "Explore more complex patterns in React for larger applications.",
-    posterId: "user456",
-    classCode: "CS201"
-  },
-  {
-    title: "Algowithms",
-    description: "Bobby and Michael yapping for 50 mins straight",
-    posterId: "user789",
-    classCode: "CS4820"
-  },
-];
-
 const ForumPage = () => {
+  const [posts, setPosts] = useState<PostData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Function to handle search queries by querying the database
+  const handleSearch = async (query: string) => {
+    setLoading(true);
+    setError(null);
+
+    const data = await searchPosts(query);
+    if (data.length === 0) {
+      setError('No posts found for this query.');
+    }
+    setPosts(data);
+    setLoading(false);
+  };
+
+  // Optionally load all posts initially
+  const loadAllPosts = async () => {
+    setLoading(true);
+    setError(null);
+
+    const data = await fetchAllPosts();
+    setPosts(data);
+    setLoading(false);
+  };
+
+  // Load all posts once when the component mounts
+  useState(() => {
+    loadAllPosts();
+  }, []);
 
   return (
-    <div id='forum-page'>
-      <h1 className='hero'>All the posts show here</h1>
-      <div className='resultsContainer'>
-        <div>
-          FILTER HERE
-        </div>
-        <div className='postsContainer'>
-          {posts.map((post, index) => (
-            <Post
-              key={index}
-              title={post.title}
-              description={post.description}
-              posterId={post.posterId}
-              classCode={post.classCode}
-            />
-          ))}
-        </div></div>
+    <div id='forum-page' className='pageTitle'>
+      <h1>Tutor Listings</h1>
 
+      {/* Search Bar */}
+      <div className="longSearchBarContainer">
+        <SearchBar onSearch={handleSearch} />
+      </div>
+
+      <div className='contentContainer'>
+        <div className='filtersSection'>
+          <h2>Filters</h2>
+        </div>
+
+        <div className='postsContainer'>
+          {loading ? (
+            <p>Loading posts...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : posts.length > 0 ? (
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                title={post.title}
+                description={post.description}
+                posterId={post.posterId}
+                classCode={post.classCode}
+              />
+            ))
+          ) : (
+            <p>No posts found.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
