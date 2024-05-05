@@ -36,33 +36,39 @@ const HomePage = () => {
       }
     };
 
-  return (
-    <div id='home-page' className='hero'>
-      <h1 style={{ fontSize: "4rem", marginTop: "4rem", marginBottom: "0" }}>Tutor Me</h1>
-      <div style={{ fontSize: "1.1rem", marginTop: "0" }}>Student tutoring platform for Cornell Students</div>
-      <div style={{ fontSize: "1.8rem", marginTop: "6rem" }}>What class do you need help with?</div>
-      {/* Search Bar */}
-      <SearchBar onSearch={handleSearch} />
-      
-      {/* Display Posts */}
-      <div style={{ marginTop: "2rem" }}>
-        <h2>Results:</h2>
-        {loading ? (
-          <p>Loading posts...</p>
-        ) : error ? (
-          <p>Error: {error}</p>
-        ) : posts.length > 0 ? (
-          <ul>
-            {posts.map((post) => (
-              <li key={post.id}>{post.description}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No posts found for this course.</p>
-        )}
+    return (
+      <div id='home-page' className='hero'>
+        <h1 style={{ fontSize: "4rem", marginTop: "4rem", marginBottom: "0" }}>Tutor Me</h1>
+        <div style={{ fontSize: "1.1rem", marginTop: "0" }}>Student tutoring platform for Cornell Students</div>
+        <div style={{ fontSize: "1.8rem", marginTop: "6rem" }}>What class do you need help with?</div>
+        {/* Search Bar */}
+        <SearchBar onSearch={handleSearch} />
+        
+        {/* Display Posts */}
+        <div style={{ marginTop: "2rem" }}>
+          <h2>Results:</h2>
+          {loading ? (
+            <p>Loading posts...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : posts.length > 0 ? (
+            <ul>
+              {posts.map((post) => (
+                <li key={post.id}>
+                  <h3>{post.course}</h3>
+                  <p><b>User ID:</b> {post.userid}</p>
+                  <p><b>Description:</b> {post.description}</p>
+                  <p><b>Available Times:</b> {post.availabilities.join(", ")}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No posts found for this course.</p>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+    
 };
 
 export default HomePage;

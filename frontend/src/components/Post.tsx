@@ -1,21 +1,21 @@
 import "./Post.css"
 
 interface PostProps {
-  title: string;
+  userid: string;
+  course: string;
+  availabilities: string[];
   description: string;
-  posterId: string;
-  classCode: string;
 }
 
 import React from 'react';
 
-const Post: React.FC<PostProps> = ({ title, description, posterId, classCode }) => {
+const Post: React.FC<PostProps> = ({ userid, course, availabilities, description }) => {
   return (
     <div className="postItem">
-      <h1>{title}</h1>
+      <h1>{course}</h1>
       <p>{description}</p>
-      <div>Posted by: {posterId}</div>
-      <div>Class Code: {classCode}</div>
+      <div>Posted by: {userid}</div>
+      <div>When: {availabilities}</div>
     </div>
   );
 };
