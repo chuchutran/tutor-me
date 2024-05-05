@@ -13,8 +13,15 @@ interface PostData {
   classCode: string;
 }
 
+interface PostData2 {
+  userid: string;
+  course: string;
+  availabilities: string;
+  description: string;
+}
+
 const ForumPage = () => {
-  const [posts, setPosts] = useState<PostData[]>([]);
+  const [posts, setPosts] = useState<PostData2[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -68,10 +75,10 @@ const ForumPage = () => {
           ) : posts.length > 0 ? (
             posts.map((post) => (
               <Post
-                key={post.id}
+                userid={post.userid}
                 description={post.description}
-                posterId={post.posterId}
-                classCode={post.classCode}
+                availabilities={post.availabilities}
+                course={post.course}
               />
             ))
           ) : (
