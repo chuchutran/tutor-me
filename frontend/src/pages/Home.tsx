@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './Home.css';
 import PostComponent from '../components/Post';
 import SearchBar from '../components/SearchBar';
-import { searchPosts } from '../utils/api'; // Adjust path if needed
+import { BACKEND_BASE_PATH } from "../constants/Navigation";
 
 
 interface PostData {
@@ -14,19 +14,25 @@ interface PostData {
   availabilities: string[]
 }
 
+
 const HomePage = () => {
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Use the `searchPosts` utility function
   const handleSearch = async (query: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const data = await searchPosts(query);
+      const response = await fetch(`${BACKEND_BASE_PATH}/post/filter/${encodeURIComponent(query)}`);
+      if (!response.ok) {
+        throw new Error(`Error fetching posts for course: ${query}`);
+      }
+      const data = await response.json();
       setPosts(data);
+
+      window.location.href = `/forum?query=${encodeURIComponent(query)}`;
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
