@@ -1,21 +1,36 @@
-.hero {
-  justify-content: center;
-}
-
-.resultsContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  /* This centers the children horizontally in the case of column flex-direction */
-  justify-content: center;
-}
-
-.postsContainer {
-  width: 50%;
+.pageTitle {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* This centers the children horizontally in the case of column flex-direction */
+  /* Establishes this element as a flex container */
   justify-content: center;
+  /* Horizontally centers the flex items */
+  align-items: center;
+}
+
+.contentContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Filters section positioned on the left with a fixed width */
+.filtersSection {
+  width: 500px; /* Adjust according to required filter space */
+  margin-right: 2rem; /* Space between filters and posts */
+  border-right: 1px solid #ccc; /* Optional separator line */
+  padding-right: 1rem;
+  padding-left: 3rem;
+}
+
+/* Posts section aligned to the right */
+.postsContainer {
+  flex: 1; /* Takes up the remaining space on the right */
+  display: flex;
+  flex-direction: column; /* Stacks posts vertically */
+  align-items: flex-start; /* Aligns posts to the left of this section */
+}
+
+.longSearchBarContainer .searchInput {
+  width: 170%; /* Adjust this percentage as needed */
+  max-width: 1000px; /* Or set a specific pixel width */
 }
