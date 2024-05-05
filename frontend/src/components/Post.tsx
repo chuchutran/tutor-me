@@ -2,12 +2,10 @@ import "./Post.css"
 
 interface PostProps {
   title: string;
-  course: string;
   availabilities: string[];
   description: string;
   posterName: string;
   posterEmail: string;
-  classCode: string;
 }
 
 
@@ -20,7 +18,6 @@ const Post: React.FC<PostProps> = ({
   posterName,
   posterEmail,
   availabilities,
-  classCode
 }) => {
   return (
     <div className="postItem">

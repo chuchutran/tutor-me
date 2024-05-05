@@ -5,17 +5,25 @@ import Post from '../components/Post';
 import { fetchUserDetails, searchPosts, fetchAllPosts } from '../utils/api'; // Adjust path as needed
 import './Forum.css';
 
-interface PostData {
-  userid: string;
-  course: string;
-  availabilities: string[];
-  description: string;
-}
+// interface PostData {
+//   userid: string;
+//   course: string;
+//   availabilities: string[];
+//   description: string;
+// }
 
-interface PostWithUserDetails extends PostData {
+interface PostWithUserDetails {
+  id: string;
+  title: string;
+  description: string;
+  userid: string;
+  classCode: string;
   posterName: string;
   posterEmail: string;
+  availabilities: string[]
+  // Add additional user details if necessary
 }
+
 
 const ForumPage = () => {
   const [posts, setPosts] = useState<PostWithUserDetails[]>([]);
@@ -26,7 +34,7 @@ const ForumPage = () => {
   const fetchAllPostsWithUserDetails = async () => {
     setLoading(true);
     setError(null);
-  
+
     try {
       const postData = await fetchAllPosts();
       const detailedPosts = await Promise.all(
@@ -34,7 +42,7 @@ const ForumPage = () => {
           const user = await fetchUserDetails(post.userid);
           // Log the result for debugging
           console.log(`User details for ${post.userid}:`, user);
-  
+
           return {
             ...post,
             posterName: user?.name || "Unknown",
@@ -49,7 +57,9 @@ const ForumPage = () => {
       setLoading(false);
     }
   };
-  
+
+
+
 
   // Function to handle search queries and fetch user details
   const handleSearch = async (query: string) => {
@@ -91,9 +101,7 @@ const ForumPage = () => {
       </div>
 
       <div className='contentContainer'>
-        <div className='filtersSection'>
-          <h2>Filters</h2>
-        </div>
+
 
         <div className='postsContainer'>
           {loading ? (
@@ -104,12 +112,11 @@ const ForumPage = () => {
             posts.map((post, index) => (
               <Post
                 key={index}
-                title={post.course}
+                title={post.title} //course name
                 description={post.description}
                 posterName={post.posterName}
                 posterEmail={post.posterEmail}
                 availabilities={post.availabilities}
-                course={post.course}
               />
             ))
           ) : (

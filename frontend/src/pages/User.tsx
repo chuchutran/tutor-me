@@ -135,9 +135,6 @@ const UserPage: React.FC = () => {
                 posterName={user.name}
                 posterEmail={user.email}
                 availabilities={post.availabilities}
-                course={post.course}
-                classCode="N/A"
-
               />
             </div>
 
