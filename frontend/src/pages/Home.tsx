@@ -21,9 +21,9 @@ const HomePage = () => {
 
   return (
     <div id='home-page' className='hero'>
-      <h1 style={{ fontSize: "4rem", marginTop: "4rem", marginBottom: "0" }}>Tutor Me</h1>
-      <div style={{ fontSize: "1.ß1rem", marginTop: "0" }}>Student tutoring platform for Cornell Students</div>
-      <div style={{ fontSize: "1.8rem", marginTop: "6rem" }}>What class do you need help with?</div>
+      <h1 style={{ fontSize: "4rem", marginTop: "3.5rem", marginBottom: "0" }}>Tutor Me</h1>
+      <div style={{ fontSize: "1.8rem", marginTop: "0" }}>Student tutoring platform for Cornell Students</div>
+      <div style={{ fontSize: "1.5rem", marginTop: "3rem" }}>What class do you need help with?</div>
       <SearchBar onSearch={handleSearch} />
 
       <div className="instructions">

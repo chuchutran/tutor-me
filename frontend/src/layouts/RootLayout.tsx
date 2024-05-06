@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import "./RootLayout.css"
 
 const RootLayout = () => (
-    <div className="root">
+    <div className="root" style={{ backgroundColor: "#F7EEE5" }}>
         <HeaderSimple links={PATHS} />
         <div className="content">
             <Outlet />

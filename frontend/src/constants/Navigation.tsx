@@ -44,7 +44,7 @@ export const PATHS: {
         // },
         {
             link: "/forum",
-            label: "Posts",
+            label: "Course Postings",
             element: <ForumPage />
         },
         {

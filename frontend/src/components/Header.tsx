@@ -39,19 +39,21 @@ const useStyles = createStyles((theme) => ({
         fontSize: theme.fontSizes.sm,
         fontWeight: 500,
         "&:hover": {
-            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+            // backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+            fontWeight: 700,
         },
     },
     linkActive: {
         "&, &:hover": {
-            backgroundColor: theme.fn.variant({
-                variant: "light",
-                color: theme.primaryColor,
-            }).background,
-            color: theme.fn.variant({
-                variant: "light",
-                color: theme.primaryColor,
-            }).color,
+            // backgroundColor: theme.fn.variant({
+            //     variant: "light",
+            //     color: theme.primaryColor,
+            // }).background,
+            // color: theme.fn.variant({
+            //     variant: "light",
+            //     color: theme.primaryColor,
+            // }).color,
+            fontWeight: 700,
         },
     },
 }));
@@ -68,6 +70,7 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
     const items = links.map((link) => (
         <Link
             key={link.label}
+            style={{ fontSize: "1.2rem" }}
             to={link.link}
             className={cx(classes.link, {
                 [classes.linkActive]: location.pathname === link.link,
@@ -78,9 +81,9 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
     ));
 
     return (
-        <Header height={60}>
+        <Header height={80} style={{ backgroundColor: "#F7EEE5" }}>
             <Container className={classes.header}>
-                <img src={bear} style={{ height: '60%' }} />
+                <img src={bear} style={{ height: '70%' }} />
                 <Group spacing={5} className={classes.links}>
                     {items}
                 </Group>

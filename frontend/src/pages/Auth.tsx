@@ -27,13 +27,13 @@ const AuthPage = () => {
       }}> {user ? "You are currently logged in!" : "Please sign in first"}</div>
       {user ? (
         <div className="signout">
-          <button onClick={() => auth.signOut()}>Sign out</button>
+          <button style={{ color: 'black' }} onClick={() => auth.signOut()}>Sign out</button>
         </div>
 
       ) : (
         <div className="signin">
           <img src={g} alt="Google sign-in" style={{ marginRight: '10px', height: '30px' }} />
-          <button onClick={signInWithGooglePopup}>Sign in with Google</button>
+          <button style={{ color: 'black' }} onClick={signInWithGooglePopup}>Sign in with Google</button>
         </div>
       )}
 

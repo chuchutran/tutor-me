@@ -93,7 +93,7 @@ const ForumPage = () => {
               </div>
             ))
           ) : (
-            <p>No posts found.</p>
+            <p style={{ display: "flex", justifyContent: "center" }}>No posts found.</p>
           )}
         </div>
       </div>
