@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './Home.css';
 import PostComponent from '../components/Post';
 import SearchBar from '../components/SearchBar';
-import { BACKEND_BASE_PATH } from "../constants/Navigation";
+// import { BACKEND_BASE_PATH } from "../constants/Navigation";
 
 
 interface PostData {
@@ -20,28 +20,33 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = async (query: string) => {
-    setLoading(true);
-    setError(null);
+  // const handleSearch = async (query: string) => {
+  //   setLoading(true);
+  //   setError(null);
 
-    try {
-      const response = await fetch(`${BACKEND_BASE_PATH}/post/filter/${encodeURIComponent(query)}`);
-      if (!response.ok) {
-        throw new Error(`Error fetching posts for course: ${query}`);
-      }
-      const data = await response.json();
-      setPosts(data);
+  //   try {
+  //     const response = await fetch(`${BACKEND_BASE_PATH}/post/filter/${encodeURIComponent(query)}`);
+  //     if (!response.ok) {
+  //       throw new Error(`Error fetching posts for course: ${query}`);
+  //     }
+  //     const data = await response.json();
+  //     setPosts(data);
 
-      window.location.href = `/forum?query=${encodeURIComponent(query)}`;
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unknown error occurred.");
-      }
-    } finally {
-      setLoading(false);
-    }
+  //     window.location.href = `/forum?query=${encodeURIComponent(query)}`;
+  //   } catch (err: unknown) {
+  //     if (err instanceof Error) {
+  //       setError(err.message);
+  //     } else {
+  //       setError("An unknown error occurred.");
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSearch = (query: string) => {
+    // Simply redirect to the forum page with the query as a URL parameter
+    window.location.href = `/forum?query=${encodeURIComponent(query)}`;
   };
 
   return (

@@ -1,44 +1,38 @@
-import { useState, KeyboardEvent, ChangeEvent } from 'react';
+import { useState, useEffect } from 'react';
 import searchIcon from '../assets/searchIcon.svg';
 import './SearchBar.css';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
+  initialValue?: string;  // Ensure it can receive an initialValue
 }
 
-const SearchBar = ({ onSearch }: SearchBarProps) => {
-  const [query, setQuery] = useState('');
+const SearchBar = ({ onSearch, initialValue = '' }: SearchBarProps) => {
+  const [input, setInput] = useState(initialValue);
 
-  // Updates the `query` state whenever the input changes
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const upperCaseQuery = event.target.value.toUpperCase();
-    setQuery(upperCaseQuery);
-  };
+  useEffect(() => {
+    setInput(initialValue);  // Update the input field whenever the initialValue changes
+  }, [initialValue]);
 
-  // Triggers a search when the search button is clicked or Enter key is pressed
-  const handleSearchSubmit = () => {
-    onSearch(query);
-  };
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSearchSubmit();
+      onSearch(input);
     }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value.toUpperCase());  // Example if you want to transform the input
   };
 
   return (
     <div className="searchContainer">
-      <img
-        src={searchIcon}
-        alt="Search Icon"
-        className="searchIcon"
-      />
+      <img src={searchIcon} alt="Search Icon" className="searchIcon" />
       <input
         type="text"
-        value={query}
-        onChange={handleSearchChange}
+        value={input}
+        onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder='Enter a class number here (ex. CS4820)'
+        placeholder="Enter a class number here (ex. CS4820)"
         className="searchInput"
       />
     </div>
