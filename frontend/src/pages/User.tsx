@@ -5,6 +5,7 @@ import { auth, db } from "../../../backend/firebase";
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { User as FirebaseUser } from "firebase/auth";
 import Post from "../components/Post";
+import CreatePostModal from "../components/createPost";
 
 interface User {
   name: string;
@@ -24,6 +25,7 @@ const UserPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [phone, setPhone] = useState<string>("");
   const [posts, setPosts] = useState<PostData[]>([]);
+  const [showCreatePostModal, setShowCreatePostModal] = useState<boolean>(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -115,14 +117,25 @@ const UserPage: React.FC = () => {
       <img src={user.imageUrl} alt="Profile" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
       <h2>{user.name}</h2>
       <div className='email' style={{ marginBottom: "1em" }}>
-        <label htmlFor="email">Email:</label>
+      <label htmlFor="email" style={{ marginRight: '10px' }}>Email:</label>
         <div>{user.email}</div>
       </div>
       <div style={{ marginBottom: "1em" }}>
-        <label htmlFor="phone" >Phone:</label>
+        <label htmlFor="phone" >Phone:  </label>
         <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
+      <div style={{ justifyContent: 'space-between'}}>
       <button onClick={updateUserDetails}>Update Phone Number</button>
+      <button onClick={() => setShowCreatePostModal(true)}>Make a Posting</button> {/* Button to open the modal */}
+      {showCreatePostModal && (
+        <CreatePostModal
+          userId={auth.currentUser ? auth.currentUser.uid : ""}
+          onClose={() => {
+            setShowCreatePostModal(false);
+          }}
+        />
+      )}
+      </div>
       <div className="full-width-container">
         <div className='post-list'>
           <h2>Your Posts:</h2>
