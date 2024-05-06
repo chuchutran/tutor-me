@@ -1,6 +1,8 @@
 // This file contains all functions that interact with backend endpoints
 import { BACKEND_BASE_PATH } from "../constants/Navigation"; // Adjust this path if necessary
 // import { useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from "../../../backend/firebase"
 
 interface PostData {
   id: string;
@@ -16,6 +18,14 @@ interface User {
   email: string;
   phone: string;
   imageUrl: string;
+}
+
+interface DocumentData {
+  title: string;
+  description: string;
+  userid: string;
+  course: string;
+  availabilities: string[];
 }
 
 /**
@@ -61,18 +71,47 @@ export const searchPosts = async (query: string): Promise<PostData[]> => {
  * Fetch all available posts.
  * @returns A promise resolving to an array of PostData objects.
  */
+// export const fetchAllPosts = async (): Promise<PostData[]> => {
+//   try {
+//     const response = await fetch(`${BACKEND_BASE_PATH}/posts/all`);
+//     if (!response.ok) {
+//       throw new Error('Error fetching all posts.');
+//     }
+//     return await response.json();
+//   } catch (error) {
+//     console.error('API Error:', error);
+//     return [];
+//   }
+// };
 export const fetchAllPosts = async (): Promise<PostData[]> => {
   try {
-    const response = await fetch(`${BACKEND_BASE_PATH}/posts/all`);
-    if (!response.ok) {
-      throw new Error('Error fetching all posts.');
+    const postsRef = collection(db, 'posts');
+    const snapshot = await getDocs(postsRef);
+
+    if (snapshot.empty) {
+      console.log('No matching documents.');
+      return [];
     }
-    return await response.json();
+
+    // Map over the documents and ensure the return type matches PostData
+    return snapshot.docs.map(doc => {
+      const data = doc.data() as DocumentData; // Cast to a broader type if needed
+      // Ensure all required properties are accounted for
+      return {
+        id: doc.id,
+        title: data.title || 'No Title', // Provide default values or handle potentially undefined
+        description: data.description || 'No Description',
+        userid: data.userid || 'No User ID',
+        classCode: data.course || 'No Class Code',
+        availabilities: data.availabilities || []
+      };
+    });
   } catch (error) {
-    console.error('API Error:', error);
-    return [];
+    console.error('Error fetching posts:', error);
+    throw new Error('Failed to fetch posts');
   }
 };
+
 
 // Handles search operation when user submits query
 // export const searchP = async (query: string) => {
@@ -98,3 +137,4 @@ export const fetchAllPosts = async (): Promise<PostData[]> => {
 //     setLoading(false); // indicate data fetching completed
 //   }
 // };
+

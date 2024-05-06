@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import Post from '../components/Post2';
-import { fetchUserDetails, searchPosts } from '../utils/api'; // Adjust path as needed
+import { fetchUserDetails, searchPosts, fetchAllPosts } from '../utils/api'; // Adjust path as needed
 import './Forum.css';
 
 // interface PostData2 {
@@ -31,13 +31,20 @@ const ForumPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState(''); // To hold the search term from URL
 
-  const handleSearch = async (query: string) => {
+
+  const handleSearch = async (query = '') => {  // Ensure there's a default parameter
     setLoading(true);
     setError(null);
-    setSearchTerm(query); // Update the search term
+    setSearchTerm(query);  // Update the search term
 
     try {
-      const postData = await searchPosts(query);
+      let postData;
+      if (query) {
+        postData = await searchPosts(query);
+      } else {
+        postData = await fetchAllPosts();  // Function to fetch all posts if no query
+      }
+
       const detailedPosts = await Promise.all(
         postData.map(async (post) => {
           const user = await fetchUserDetails(post.userid);
@@ -56,15 +63,25 @@ const ForumPage = () => {
     }
   };
 
+
+
   // Initialize search from URL parameters on component mount
+  // useEffect(() => {
+  //   const params = new URLSearchParams(window.location.search);
+  //   const query = params.get('query');
+  //   if (query) {
+  //     setSearchTerm(query);  // Set the initial search term from the URL
+  //     handleSearch(query);   // Perform the search with the initial term
+  //   }
+  // }, []);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const query = params.get('query');
-    if (query) {
-      setSearchTerm(query);  // Set the initial search term from the URL
-      handleSearch(query);   // Perform the search with the initial term
-    }
+    const query = params.get('query') || ''; // Default to an empty string if no query
+    setSearchTerm(query);  // Set the initial search term from the URL
+    handleSearch(query);   // Perform the search with the initial term or fetch all if empty
   }, []);
+
 
   return (
     <div id='forum-page' className='pageTitle'>
