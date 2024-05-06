@@ -19,6 +19,7 @@ interface PostData {
   course: string;
   availabilities: string[];
   description: string;
+  docId: string;
 }
 
 const UserPage: React.FC = () => {
@@ -82,21 +83,21 @@ const UserPage: React.FC = () => {
       }
     }
   };
-  
 
-  const handleDeletePost = async (docId) => {
+
+  const handleDeletePost = async (docId: string): Promise<void> => {
     const postRef = doc(db, "posts", docId); // Get a reference to the document to delete
     try {
       await deleteDoc(postRef); // Delete the document
       alert("Post deleted successfully!");
-      fetchPosts();
+      fetchPosts(); // Make sure fetchPosts is defined somewhere in your code
     } catch (error) {
       console.error("Error deleting post:", error);
       alert("Failed to delete post.");
     }
   };
-  
-  
+
+
 
   useEffect(() => {
     const checkUser = async () => {
@@ -121,7 +122,7 @@ const UserPage: React.FC = () => {
         }
       }
     };
-    
+
 
     checkUser();
     fetchPosts();
@@ -136,36 +137,37 @@ const UserPage: React.FC = () => {
       <img src={user.imageUrl} alt="Profile" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
       <h2>{user.name}</h2>
       <div className='email' style={{ marginBottom: "1em" }}>
-      <label htmlFor="email" style={{ marginRight: '10px' }}>Email:</label>
+        <label htmlFor="email" style={{ marginRight: '10px' }}>Email:</label>
         <div>{user.email}</div>
       </div>
       <div style={{ marginBottom: "1em" }}>
         <label htmlFor="phone" >Phone:  </label>
         <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
-      <div style={{ justifyContent: 'space-between'}}>
-      <button onClick={updateUserDetails} style={{
-       color: 'black'}}
-     >Update Phone Number</button>
-      <button onClick={() => setShowCreatePostModal(true)}
-        style={{
-          backgroundColor: 'white',  
-          color: 'black',                 
+      <div style={{ justifyContent: 'space-between' }}>
+        <button onClick={updateUserDetails} style={{
+          color: 'black'
         }}
-      >
-        Make a Posting</button> {/* Button to open the modal */}
-      {showCreatePostModal && (
-        <CreatePostModal
-          userId={auth.currentUser ? auth.currentUser.uid : ""}
-          onClose={() => {
-            setShowCreatePostModal(false);
-            fetchPosts(); 
-            
+        >Update Phone Number</button>
+        <button onClick={() => setShowCreatePostModal(true)}
+          style={{
+            backgroundColor: 'white',
+            color: 'black',
           }}
-          fetchPosts={fetchPosts}
-        />
-        
-      )}
+        >
+          Make a Posting</button> {/* Button to open the modal */}
+        {showCreatePostModal && (
+          <CreatePostModal
+            userId={auth.currentUser ? auth.currentUser.uid : ""}
+            onClose={() => {
+              setShowCreatePostModal(false);
+              fetchPosts();
+
+            }}
+            fetchPosts={fetchPosts}
+          />
+
+        )}
       </div>
       <div className="full-width-container">
         <div className='post-list'>

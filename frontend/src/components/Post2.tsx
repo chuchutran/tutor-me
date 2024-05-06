@@ -6,7 +6,7 @@ interface PostProps {
   description: string;
   posterName: string;
   posterEmail: string;
-  docId: string;  // Assuming each post has a document ID
+  //docId: string;  // Assuming each post has a document ID
 }
 
 
@@ -19,7 +19,7 @@ const Post2: React.FC<PostProps> = ({
   posterName,
   posterEmail,
   availabilities,
-  docId,
+  //docId,
 }) => {
   return (
     <div className="postItem">

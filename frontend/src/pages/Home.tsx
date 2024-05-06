@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './Home.css';
-import PostComponent from '../components/Post';
+// import PostComponent from '../components/Post';
 import SearchBar from '../components/SearchBar';
 // import { BACKEND_BASE_PATH } from "../constants/Navigation";
 
@@ -16,9 +16,10 @@ interface PostData {
 
 
 const HomePage = () => {
-  const [posts, setPosts] = useState<PostData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [posts] = useState<PostData[]>([]);
+  const [loading] = useState(false);
+  const [error] = useState<string | null>(null);
+
 
   // const handleSearch = async (query: string) => {
   //   setLoading(true);
@@ -64,13 +65,13 @@ const HomePage = () => {
         ) : posts.length > 0 ? (
           posts.map((post) => (
             <li key={post.id}>
-              <PostComponent
+              {/* <PostComponent
                 title={post.title}
                 description={post.description}
                 posterName={post.userid}
                 posterEmail="null"
                 availabilities={post.availabilities}
-              />
+              /> */}
             </li>
           ))
         ) : (
