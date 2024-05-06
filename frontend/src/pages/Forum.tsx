@@ -1,8 +1,16 @@
+// ForumPage.tsx
 import { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
-import Post from '../components/Post';
-import { fetchUserDetails, searchPosts } from '../utils/api';
+import Post from '../components/Post2';
+import { fetchUserDetails, searchPosts } from '../utils/api'; // Adjust path as needed
 import './Forum.css';
+
+// interface PostData2 {
+//   userid: string;
+//   course: string;
+//   availabilities: string;
+//   description: string;
+// }
 
 interface PostWithUserDetails {
   id: string;
@@ -13,7 +21,9 @@ interface PostWithUserDetails {
   posterName: string;
   posterEmail: string;
   availabilities: string[]
+  // Add additional user details if necessary
 }
+
 
 const ForumPage = () => {
   const [posts, setPosts] = useState<PostWithUserDetails[]>([]);

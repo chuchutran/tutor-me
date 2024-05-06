@@ -8,6 +8,7 @@
   /* Horizontally centers the flex items within pageTitle */
   width: 100%;
   /* Ensures the container takes full width */
+  background-color: #f4e7d3;
 }
 
 /* Container for content below the page title, ensuring everything is centered */
@@ -16,5 +17,6 @@
   flex-direction: column;
   /* Aligns children (like search bar and post list) vertically */
   width: 100%;
+  background-color: #f4e7d3;
 
 }

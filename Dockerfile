@@ -29,5 +29,8 @@ EXPOSE 443
 # Install PM2
 RUN npm install -g pm2
 
+# Ensure start.sh is executable
+RUN chmod +x /app/start.sh
+
 # Use the start script as the entrypoint
 ENTRYPOINT ["./start.sh"]

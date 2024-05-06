@@ -7,7 +7,7 @@ interface Props {
 }
 
 
-const CreatePostModal: React.FC<Props> = ({ userId, onClose }) => {
+const CreatePostModal: React.FC<Props & { fetchPosts: () => void }> = ({ userId, onClose, fetchPosts }) => {
   const [course, setCourse] = useState('');
   const [description, setDescription] = useState('');
   const [availabilities, setAvailabilities] = useState('')
@@ -30,6 +30,7 @@ const CreatePostModal: React.FC<Props> = ({ userId, onClose }) => {
       if (!response.ok) throw new Error('Failed to create post');
       onClose();  // Close modal on success
       alert('Post created successfully!');
+      fetchPosts()
     } catch (error: any) {
       alert(error.message);
     }

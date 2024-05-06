@@ -6,22 +6,20 @@ interface PostProps {
   description: string;
   posterName: string;
   posterEmail: string;
-  docId: string;  // Assuming each post has a document ID
-  onDelete: (docId: string) => void;
+  //docId: string;  // Assuming each post has a document ID
 }
 
 
 
 import React from 'react';
 
-const Post: React.FC<PostProps> = ({
+const Post2: React.FC<PostProps> = ({
   title,
   description,
   posterName,
   posterEmail,
   availabilities,
-  docId,
-  onDelete,
+  //docId,
 }) => {
   return (
     <div className="postItem">
@@ -35,12 +33,9 @@ const Post: React.FC<PostProps> = ({
         <div>Email: {posterEmail}</div>
         <div>Availability: {availabilities}</div>
         <p>Description: {description}</p>
-        <button onClick={() => onDelete(docId)} style={{ color: "black", padding: '5px 10px', margin: '10px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          Delete Post
-        </button>
       </div>
     </div>
   );
 };
 
-export default Post;
+export default Post2;

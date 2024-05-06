@@ -17,7 +17,10 @@ import AuthPage from "../pages/Auth";
  * If you've already deployed your app (using `fly launch` or `fly deploy`),
  * you can find the name by running `flyctl status`, under App > Name.
  */
-export const BACKEND_BASE_PATH = 'http://localhost:8080/api';
+
+
+
+export const BACKEND_BASE_PATH = 'https://tutor-me.fly.dev/api';
 
 export const PATHS: {
     link: string;

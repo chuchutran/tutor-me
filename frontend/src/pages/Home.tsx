@@ -9,7 +9,6 @@ const HomePage = () => {
       if (!response.ok) {
         throw new Error(`Error fetching posts for course: ${query}`);
       }
-
       window.location.href = `/forum?query=${encodeURIComponent(query)}`;
     } catch (err: unknown) {
       if (err instanceof Error) {
