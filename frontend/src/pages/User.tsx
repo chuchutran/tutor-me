@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./User.css"
 import bear from "../assets/tutorme.svg"
 import { auth, db } from "../../../backend/firebase";
-import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, deleteDoc } from 'firebase/firestore';
 import { User as FirebaseUser } from "firebase/auth";
 import Post from "../components/Post";
 import CreatePostModal from "../components/createPost";
@@ -54,6 +54,19 @@ const UserPage: React.FC = () => {
     checkUser();
   }, []);
 
+  const fetchPosts = async () => {
+    if (auth.currentUser) {
+      const postsRef = collection(db, "posts"); // Assuming 'posts' is the name of the collection
+      const q = query(postsRef, where("userid", "==", auth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
+      const fetchedPosts = querySnapshot.docs.map(doc => ({
+        ...doc.data() as PostData,
+        docId: doc.id  // Include the document ID in the post data
+      }));
+      setPosts(fetchedPosts);
+    }
+  };
+
   const updateUserDetails = async () => {
     if (auth.currentUser) {
       try {
@@ -69,6 +82,21 @@ const UserPage: React.FC = () => {
       }
     }
   };
+  
+
+  const handleDeletePost = async (docId) => {
+    const postRef = doc(db, "posts", docId); // Get a reference to the document to delete
+    try {
+      await deleteDoc(postRef); // Delete the document
+      alert("Post deleted successfully!");
+      fetchPosts();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert("Failed to delete post.");
+    }
+  };
+  
+  
 
   useEffect(() => {
     const checkUser = async () => {
@@ -93,16 +121,7 @@ const UserPage: React.FC = () => {
         }
       }
     };
-
-    const fetchPosts = async () => {
-      if (auth.currentUser) {
-        const postsRef = collection(db, "posts"); // Assuming 'posts' is the name of the collection
-        const q = query(postsRef, where("userid", "==", auth.currentUser.uid));
-        const querySnapshot = await getDocs(q);
-        const fetchedPosts = querySnapshot.docs.map(doc => doc.data() as PostData);
-        setPosts(fetchedPosts);
-      }
-    };
+    
 
     checkUser();
     fetchPosts();
@@ -125,15 +144,27 @@ const UserPage: React.FC = () => {
         <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
       <div style={{ justifyContent: 'space-between'}}>
-      <button onClick={updateUserDetails}>Update Phone Number</button>
-      <button onClick={() => setShowCreatePostModal(true)}>Make a Posting</button> {/* Button to open the modal */}
+      <button onClick={updateUserDetails} style={{
+       color: 'black'}}
+     >Update Phone Number</button>
+      <button onClick={() => setShowCreatePostModal(true)}
+        style={{
+          backgroundColor: 'white',  
+          color: 'black',                 
+        }}
+      >
+        Make a Posting</button> {/* Button to open the modal */}
       {showCreatePostModal && (
         <CreatePostModal
           userId={auth.currentUser ? auth.currentUser.uid : ""}
           onClose={() => {
             setShowCreatePostModal(false);
+            fetchPosts(); 
+            
           }}
+          fetchPosts={fetchPosts}
         />
+        
       )}
       </div>
       <div className="full-width-container">
@@ -148,6 +179,8 @@ const UserPage: React.FC = () => {
                 posterName={user.name}
                 posterEmail={user.email}
                 availabilities={post.availabilities}
+                docId={post.docId}
+                onDelete={handleDeletePost}
               />
             </div>
 

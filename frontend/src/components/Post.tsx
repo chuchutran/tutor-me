@@ -6,6 +6,8 @@ interface PostProps {
   description: string;
   posterName: string;
   posterEmail: string;
+  docId: string;  // Assuming each post has a document ID
+  onDelete: (docId: string) => void;
 }
 
 
@@ -18,6 +20,8 @@ const Post: React.FC<PostProps> = ({
   posterName,
   posterEmail,
   availabilities,
+  docId,
+  onDelete,
 }) => {
   return (
     <div className="postItem">
@@ -31,6 +35,9 @@ const Post: React.FC<PostProps> = ({
         <div>Email: {posterEmail}</div>
         <div>Availability: {availabilities}</div>
         <p>Description: {description}</p>
+        <button onClick={() => onDelete(docId)} style={{ color: "black", padding: '5px 10px', margin: '10px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+          Delete Post
+        </button>
       </div>
     </div>
   );

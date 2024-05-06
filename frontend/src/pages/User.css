@@ -1,5 +1,7 @@
 .hero {
   justify-content: center;
+  background-color: #f4e7d3;
+  
 }
 
 .user-page {
@@ -7,6 +9,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #f4e7d3;
 }
 
 .email {
@@ -16,8 +19,10 @@
 
 .full-width-container {
   width: 100%;
+  background-color: #f4e7d3;
 }
 
 .post-list {
-  margin: 5em
+  margin: 5em;
+  background-color: #f4e7d3;
 }
